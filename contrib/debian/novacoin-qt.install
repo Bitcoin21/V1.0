@@ -1,0 +1,5 @@
+Bitcoin21-qt usr/bin
+share/pixmaps/Bitcoin2132.xpm usr/share/pixmaps
+share/pixmaps/Bitcoin2180.xpm usr/share/pixmaps
+debian/Bitcoin21-qt.desktop usr/share/applications
+debian/Bitcoin21-qt.protocol usr/share/kde4/services/

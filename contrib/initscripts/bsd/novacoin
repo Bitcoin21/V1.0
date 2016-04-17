@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: Bitcoin21
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# Bitcoin21_enable (bool): Set to NO by default. Set this variable to YES if you want to enable Bitcoin21 service.
+# Bitcoin21_config (path): Set to /usr/local/etc/Bitcoin21.conf by default.
+# Bitcoin21_user:  The user account Bitcoin21 daemon runs as. It uses 'root' user by default.
+# Bitcoin21_group: The group account Bitcoin21 daemon runs as. It uses 'wheel' group by default.
+# Bitcoin21_datadir (str): Default to "/var/db/Bitcoin21". Base data directory.
+
+. /etc/rc.subr
+
+name=Bitcoin21
+rcvar=Bitcoin21_enable
+
+: ${Bitcoin21_enable:=NO}
+: ${Bitcoin21_config=/usr/local/etc/Bitcoin21.conf}
+: ${Bitcoin21_datadir=/var/db/Bitcoin21}
+: ${Bitcoin21_user="root"}
+: ${Bitcoin21_group="wheel"}
+
+required_files=${Bitcoin21_config}
+command=/usr/local/bin/Bitcoin21d
+Bitcoin21_chdir=${Bitcoin21_datadir}
+pidfile="${Bitcoin21_datadir}/Bitcoin21d.pid"
+stop_cmd=Bitcoin21_stop
+command_args="-conf=${Bitcoin21_config} -datadir=${Bitcoin21_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+Bitcoin21_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${Bitcoin21_datadir}
+	[ $? -eq 0 ] && chown -R ${Bitcoin21_user}:${Bitcoin21_group} ${Bitcoin21_datadir}
+}
+
+Bitcoin21_prestart()
+{
+	if [ ! -d "${Bitcoin21_datadir}/." ]; then
+		Bitcoin21_create_datadir || return 1
+	fi
+}
+
+Bitcoin21_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+Bitcoin21_stop()
+{
+    Bitcoin21_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${Bitcoin21_config} -datadir=${Bitcoin21_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

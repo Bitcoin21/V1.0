@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bitcoin21
+Comment=Bitcoin21 P2P Cryptocurrency
+Comment[ru]=Bitcoin21, P2P криптовалюта
+Comment[fr]=Bitcoin21, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Bitcoin21, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/Bitcoin21-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/Bitcoin2180.xpm
+MimeType=x-scheme-handler/Bitcoin21;
+Categories=Office;

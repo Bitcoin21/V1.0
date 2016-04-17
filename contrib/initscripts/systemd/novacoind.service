@@ -1,0 +1,11 @@
+[Unit]
+Description=Bitcoin21 daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=Bitcoin21
+ExecStart=/opt/Bitcoin21/Bitcoin21d
+
+[Install]
+WantedBy=multi-user.target

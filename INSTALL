@@ -1,0 +1,9 @@
+Building Bitcoin21
+
+See doc/readme-qt.rst for instructions on building Bitcoin21 Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Bitcoin21.
+
+See doc/build-*.txt for instructions on building Bitcoin21d,
+the intended-for-services, no-graphical-interface, reference
+implementation of Bitcoin21.
